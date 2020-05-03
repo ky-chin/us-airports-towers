@@ -1,4 +1,4 @@
-// 1. Create a map object.
+// map object.
 var mymap = L.map('map', {
     center: [39.8283, 98.5795],
     zoom: 3,
@@ -6,27 +6,25 @@ var mymap = L.map('map', {
     minZoom: 2,
     detectRetina: true});
 
-// 2. Add a base map.
+// base map
 L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png').addTo(mymap);
 
-// 3. Add cell towers GeoJSON Data
-// Null variable that will hold cell tower data
+// Add control towers GeoJSON Data
+// Null variable that will hold control tower data
 var airports = null;
 
 
-// 4. build up a set of colors from colorbrewer's dark2 category
-var colors = chroma.scale('Dark2').mode('lch').colors(9);
+// set color ramp
+var colors = chroma.scale('RdYlGn').mode('lch').colors(9);
 
-// 5. dynamically append style classes to this page. This style classes will be used for colorize the markers.
+// assign color to markers
 for (i = 0; i < 9; i++) {
     $('head').append($("<style> .marker-color-" + (i + 1).toString() + " { color: " + colors[i] + "; font-size: 15px; text-shadow: 0 0 3px #ffffff;} </style>"));
 }
 
 // Get GeoJSON and put on it on the map when it loads
+// popup function added to display info on each cell tower when clicked
 cellTowers= L.geoJson.ajax("assets/airports.geojson", {
-    // assign a function to the onEachFeature parameter of the cellTowers object.
-    // Then each (point) feature will bind a popup window.
-    // The content of the popup window is the value of `feature.properties.CNTL_TWR`
     onEachFeature: function (feature, layer) {
         layer.bindPopup(feature.properties.CNTL_TWR);
     },
@@ -34,13 +32,13 @@ cellTowers= L.geoJson.ajax("assets/airports.geojson", {
         var id = 0;
         if (feature.properties.CNTL_TWR == "Y") { id = 0; }
         else { id = 8;} // "Salem Cellular"
-        return L.marker(latlng, {icon: L.divIcon({className: 'fa fa-signal marker-color-' + (id + 1).toString() })});
+        return L.marker(latlng, {icon: L.divIcon({className: 'fa fa-plane marker-color-' + (id + 1).toString() })});
     },
     attribution: 'US Airports &copy; Data.gov | US States &copy; Mike Bostock (D3) | Base Map &copy; CartoDB | Made By Kelsey Chin'
 }).addTo(mymap);
 
 
-// 6. Set function for color ramp
+//base map color ramp set
 colors = chroma.scale('OrRd').colors(5); //colors = chroma.scale('RdPu').colors(5);
 
 function setColor(density) {
@@ -54,7 +52,7 @@ function setColor(density) {
 }
 
 
-// 7. Set style function that sets fill color.md property equal to cell tower density
+// style function for airport density
 function style(feature) {
     return {
         fillColor: setColor(feature.properties.count),
@@ -66,7 +64,7 @@ function style(feature) {
     };
 }
 
-// 8. Add county polygons
+// Add state polygons
 // create USStates variable, and assign null to it.
 var USStates = null;
 USStates = L.geoJson.ajax("assets/us-states.geojson", {
@@ -89,8 +87,8 @@ legend.onAdd = function () {
     div.innerHTML += '<i style="background: ' + colors[1] + '; opacity: 0.5"></i><p> 6-10</p>';
     div.innerHTML += '<i style="background: ' + colors[0] + '; opacity: 0.5"></i><p> 0- 5</p>';
     div.innerHTML += '<hr><b>Has Control Tower<b><br />';
-    div.innerHTML += '<i class="fa fa-signal marker-color-1"></i><p> Yes</p>';
-    div.innerHTML += '<i class="fa fa-signal marker-color-2"></i><p> No</p>';
+    div.innerHTML += '<i class="fa fa-plane marker-color-1"></i><p> Yes</p>';
+    div.innerHTML += '<i class="fa fa-plane marker-color-2"></i><p> No</p>';
 
     // Return the Legend div containing the HTML content
     return div;

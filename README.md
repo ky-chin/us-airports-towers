@@ -39,7 +39,7 @@ Reference
 
 # things to do
 - change symbol for airports/towers
-- change params for the number of airports
+- change params for the number of airports?
 - add imgs folder
 - make map accessible online
 - extra features?
