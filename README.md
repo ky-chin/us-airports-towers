@@ -5,11 +5,11 @@ Advanced Digital Geographies.
 
 ***
 
-![](img/map_final.png)
+![](img/final_map.png)
 
 This map is a display of the airports in the United States as of 2012. States display relative counts of airports, and airports themselves are categorized by whether or not they have a control tower. A popup for each airport displays basic information such as the name and location.
 
-![](img/map_final_popup.png)
+![](img/final_map_popup.png)
 
 #### Sources
 - Basemap by CartoDB.
